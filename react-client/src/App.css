@@ -1,0 +1,14 @@
+@media (max-width: 799px) {
+	.chat-window {
+		width: 100vw;
+		height: 88vh;
+	}
+}
+
+@media (min-width: 800px) {
+	.chat-window {
+		width: 70vw;
+		height: 90vh;
+		margin: 30px auto;
+	}
+}
