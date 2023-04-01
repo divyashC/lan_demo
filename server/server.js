@@ -35,22 +35,18 @@ io.on("connection", (socket) => {
 	});
 });
 
-// const IP_ADDRESS = "10.2.22.180";
+const PORT = process.env.PORT || 5000;
 const interfaces = os.networkInterfaces();
-let ipAddress = "";
+let ipAddresses = [];
 
 Object.keys(interfaces).forEach((iface) => {
 	interfaces[iface].forEach((ifaceInfo) => {
 		if (ifaceInfo.family === "IPv4" && !ifaceInfo.internal) {
-			ipAddress = ifaceInfo.address;
+			ipAddresses.push(ifaceInfo.address);
 		}
 	});
 });
 
-console.log(`IP address: ${ipAddress}`);
-
-const PORT = process.env.PORT || 5000;
-
-server.listen(PORT, ipAddress, () => {
-	console.log(`Server running on ${ipAddress}:${PORT}`);
+server.listen({ port: PORT, host: "0.0.0.0", addresses: ipAddresses }, () => {
+	console.log(`Server running on ${ipAddresses.join(", ")}:${PORT}`);
 });
