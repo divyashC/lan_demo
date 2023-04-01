@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./App.css";
 
-const socket = io("http://10.2.22.180:5000", {
+const socket = io(`http://${window.location.hostname}:5000`, {
 	transport: ["websocket"],
 });
 
@@ -62,25 +62,31 @@ function App() {
 							{userName}
 						</span>
 					</p>
-					<ul className="flex-1 p-4 overflow-y-scroll chat-messages">
+					<ul className="flex-1 p-4 overflow-y-scroll chat-messages ">
 						{messages.map(({ userName: messageUserName, message }, index) => (
 							<div key={index}>
-								<li className="mb-1 text-sm text-gray-400">
+								<li
+									className={
+										messageUserName === userName
+											? "mb-1 text-sm text-gray-400 ml-auto w-fit"
+											: "mb-1 text-sm text-gray-400 mr-auto w-fit"
+									}
+								>
 									{messageUserName}
 								</li>
 								<li
 									className={
 										messageUserName === userName
-											? "message self bg-blue-500 text-white rounded-md py-2 px-3 mb-2"
-											: "message others bg-gray-100 rounded-md py-2 px-3 mb-2"
+											? "bg-blue-500 text-white rounded-2xl py-2 px-3 mb-3 ml-auto w-fit"
+											: "bg-gray-100 rounded-2xl py-2 px-3 mb-3 mr-auto w-fit"
 									}
-									key={index}
 								>
 									{message}
 								</li>
 							</div>
 						))}
 					</ul>
+
 					<form
 						onSubmit={handleSubmit}
 						className="flex items-center justify-center p-4"
